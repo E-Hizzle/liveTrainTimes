@@ -51,9 +51,8 @@ $(document).ready(function(){
     timeValue += (minutes < 10) ? ":0" + minutes : ":" + minutes; 
     timeValue += (hours >= 12) ? "pm" : "am"; 
 
-    var timeDifference = moment().diff(moment.unix(fireFirstTrain, "minutes"));
-    var minutesAway = "20 minutes";
-    var nextArrival = moment().add(35, "minutes").format('LT');
+    var minutesAway = //current time - next arrival.
+    var nextArrival = //first arrival + frequency until diffence > current time.
 
     $("#trainTable > tbody").append("<tr class='active'><td>" + fireName + "</td><td>" + fireDestination + "</td><td>" + "Every " + fireFrequency + " Minutes" + "</td><td>" + nextArrival + "</td><td>" + minutesAway + "</td></tr>");
 
