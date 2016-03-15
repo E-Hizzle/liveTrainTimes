@@ -40,7 +40,18 @@ $(document).ready(function(){
     //Moment.js
     //Next Arrival: Current time + frequency
     //Minutes Away: Next Arrival - Current Time
-    
+
+    //Not necessarily part of the program, but the converts military time to conventional time.
+    var time = fireFirstTrain 
+    time = time.split(':');
+    var hours = Number(time[0]);
+    var minutes = Number(time[1]);
+    var seconds = Number(time[2]);
+    var timeValue = "" + ((hours >12) ? hours - 12 : hours); 
+    timeValue += (minutes < 10) ? ":0" + minutes : ":" + minutes; 
+    timeValue += (hours >= 12) ? "pm" : "am"; 
+    console.log(timeValue)
+
     var nextArrival = "";
     var minutesAway = "";
 
