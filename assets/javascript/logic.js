@@ -6,10 +6,12 @@ $(document).ready(function(){
     $("#submitButton").on("click", function(){
       var trainName = $("#trainNameInput").val().trim();
       var destination = $("#destinationInput").val().trim();
-      var firstTrain = $("#firstTrainTimeInput").val().trim();
+      var firstTrain = moment($("#firstTrainTimeInput").val().trim(), "HH:mm").format("X");
       var frequency = $("#frequencyInput").val().trim();
+
       // console.log(this);
 
+      console.log(firstTrain)
       //Firebase pushes
       charmander.push({
         trainName: trainName,
@@ -29,6 +31,7 @@ $(document).ready(function(){
 
     });
 
+  //Listener for data pushed to firebase.
   charmander.on("child_added", function(childSnapshot) {
 
     //Firebase Variables
@@ -38,10 +41,7 @@ $(document).ready(function(){
     var fireFrequency = childSnapshot.val().frequency;
 
     //Moment.js
-    //Next Arrival: Current time + frequency
-    //Minutes Away: Next Arrival - Current Time
-
-    //Not necessarily part of the program, but the converts military time to conventional time.
+    //Not necessarily part of the program, but converts military time to standard time.
     var time = fireFirstTrain 
     time = time.split(':');
     var hours = Number(time[0]);
@@ -50,10 +50,10 @@ $(document).ready(function(){
     var timeValue = "" + ((hours >12) ? hours - 12 : hours); 
     timeValue += (minutes < 10) ? ":0" + minutes : ":" + minutes; 
     timeValue += (hours >= 12) ? "pm" : "am"; 
-    console.log(timeValue)
 
-    var nextArrival = "";
-    var minutesAway = "";
+    var timeDifference = moment().diff(moment.unix(fireFirstTrain, "minutes"));
+    var minutesAway = "20 minutes";
+    var nextArrival = moment().add(35, "minutes").format('LT');
 
     $("#trainTable > tbody").append("<tr class='active'><td>" + fireName + "</td><td>" + fireDestination + "</td><td>" + "Every " + fireFrequency + " Minutes" + "</td><td>" + nextArrival + "</td><td>" + minutesAway + "</td></tr>");
 
