@@ -42,6 +42,7 @@ $(document).ready(function(){
 
     //Moment.js
     //Not necessarily part of the program, but converts military time to standard time.
+
     var time = fireFirstTrain 
     time = time.split(':');
     var hours = Number(time[0]);
@@ -51,10 +52,27 @@ $(document).ready(function(){
     timeValue += (minutes < 10) ? ":0" + minutes : ":" + minutes; 
     timeValue += (hours >= 12) ? "pm" : "am"; 
 
-    var minutesAway = //current time - next arrival.
-    var nextArrival = //first arrival + frequency until diffence > current time.
+    var minutesAway = "";
 
-    $("#trainTable > tbody").append("<tr class='active'><td>" + fireName + "</td><td>" + fireDestination + "</td><td>" + "Every " + fireFrequency + " Minutes" + "</td><td>" + nextArrival + "</td><td>" + minutesAway + "</td></tr>");
+              //current time - next arrival(formatted in minutes).
+
+    var nextArrival = "";
+
+              //first arrival + frequency until diffence > current time.
+              //fireFirstArrival + fireFrequency
+              //if nextArrival < currentTime
+              //+ frequency
+              //elseif nextArrival found.
+
+
+    var firstTimeConverted = moment(fireFirstTrain,"hh:mm").subtract(1, "years");
+    var currentTime = moment();
+    var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+    var tRemainder = diffTime % fireFrequency; 
+    var tMinutesTillTrain = fireFrequency - tRemainder;
+    var nextTrain = moment().add(tMinutesTillTrain, "minutes").format("hh:mm")
+
+    $("#trainTable > tbody").append("<tr class='active'><td>" + fireName + "</td><td>" + fireDestination + "</td><td>" + "Every " + fireFrequency + " Minutes" + "</td><td>" + nextTrain + "</td><td>" + tMinutesTillTrain + "</td></tr>");
 
   });
 
